@@ -1,0 +1,46 @@
+.custom-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: white;
+    display: flex;
+    // padding-bottom: calc(env(safe-area-inset-bottom)  - 2rpx);
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 0.5rpx solid #E5E9F3;
+    .tab-bar-item {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .tab-bubble {
+            width: 30px;
+            height: 30px;
+            top: 0;
+            left: 100;
+            z-index: 999;
+            position: relative;
+            background: #E80017;
+            border-radius:50%;
+            line-height: 30px;
+            text-align: center;
+            font-size: 24px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+    }
+
+    .tab-bar-item .tab-bar-item-icon {
+        width: 54px;
+        height: 54px;
+        margin-bottom: 5rpx;
+    }
+
+    .tab-bar-item .tab-bar-item-text {
+        font-size: 22px;
+    }
+}
