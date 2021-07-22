@@ -1,9 +1,13 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "myApp",
-  "appid": "touristappid",
+  "projectname": "myApp1",
+  "description": "ii",
+  "appid": "wx325e30f6ed61456a",
   "setting": {
+    "urlCheck": true,
     "es6": false,
+    "postcss": false,
     "minified": false
-  }
+  },
+  "compileType": "miniprogram"
 }
