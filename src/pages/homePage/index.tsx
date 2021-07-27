@@ -1,5 +1,7 @@
 import { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { NavigationBar } from '@/components/NavigationBar'
+
 import './index.scss'
 
 export default class Index extends Component {
@@ -17,8 +19,14 @@ export default class Index extends Component {
 
   render () {
     return (
-      <View className='index'>
-        <Text>homePage</Text>
+      <View>
+        <NavigationBar background='red' title='ddd' />
+        {/* <NavigationBar background='red'>
+          <Text>自定义 NavigationBar</Text>
+        </NavigationBar> */}
+        <View>
+          123
+        </View>
       </View>
     )
   }

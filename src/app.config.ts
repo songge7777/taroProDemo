@@ -10,23 +10,26 @@ export default {
         list:[
             {
                 pagePath:"pages/index/index",
-                text:"首页122",
+                text:"首页",
                 iconPath: "assets/tabbar/home.png",
                 selectedIconPath: "assets/tabbar/sHome.png",
             },
             {
                 pagePath:"pages/homePage/index",
-                text:"homePage2",
+                text:"homePage",
                 iconPath: "assets/tabbar/feat.png",
                 selectedIconPath: "assets/tabbar/sfeat.png",
             },
             {
                 pagePath:"pages/twoPage/index",
-                text:"twoPage3",
+                text:"twoPage",
                 iconPath: "assets/tabbar/me.png",
                 selectedIconPath: "assets/tabbar/sMe.png",
             }
-        ]
+        ],
+        usingComponents: {
+            customtabbar: "custom-tab-bar/index"
+        }
     },
     window: {
         backgroundTextStyle: "light",

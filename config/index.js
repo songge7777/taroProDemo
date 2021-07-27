@@ -1,3 +1,5 @@
+import path from 'path';
+
 const config = {
   projectName: 'myApp',
   date: '2021-7-17',
@@ -40,6 +42,16 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
+    },
+    webpackChain (chain) {
+      chain.merge({
+        resolve: {
+          extensions: [".ts",".tsx",".js",".json"],
+          alias: {
+            '@': path.resolve("src")
+          }
+        }
+      })
     }
   },
   h5: {
@@ -59,10 +71,10 @@ const config = {
         }
       }
     }
-  }
+  },
 }
 
-module.exports = function (merge) {
+export default function (merge) {
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'))
   }

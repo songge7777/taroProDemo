@@ -3,9 +3,10 @@ import {
     MINUS
 } from "../constants/counter";
   
-export const add = () => {
+export const add = (num:number) => {
     return {
-        type: ADD
+        type: ADD,
+        num
     };
 };
 export const minus = () => {
@@ -23,3 +24,5 @@ export function asyncAdd () {
     };
 }
   
+
+export default {add,minus}

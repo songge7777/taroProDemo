@@ -5,7 +5,8 @@
 import { CoverImage, CoverView } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { Component } from "react";
-
+import { connect } from 'react-redux'
+import actions from '../store/actions/counter';
 import "./index.scss";
 
 const tabBarConfig = [
@@ -35,6 +36,11 @@ const tabBarConfig = [
      selectedIconPath: string,
  };
  
+type Props = {
+    tabBarIndex: number,
+    count: number,
+    add: (num: number) =>{},
+};
 
 const createTabBarConfig = () => {
     const _tabBarConfig: TabItem[] = tabBarConfig.map((item: TabItem) => ({
@@ -46,52 +52,41 @@ const createTabBarConfig = () => {
     return _tabBarConfig;
 };
  
-type Props = {
-    tabBarIndex: number,
-    count: number,
-};
-
-type State = {
-    selected: number,
-};
-
 const list: TabItem[] = createTabBarConfig();
- class _CustomTabBar extends Component<Props, State> {
+ class _CustomTabBar extends Component<Props, unknown> {
     constructor(props:Props){
         super(props);
         this.state = {
-            selected: 0,
-        }
+        };
     }
-     public readonly switchTab = (item: TabItem, _index: number) => {
-         console.log("点击tabbar 跳转的事件", item.pagePath, this.state.selected, _index);
-         const _customTabBaar = Taro.getStorageSync("customTabBaar");
-         if (_customTabBaar === item.pagePath) return;
+     public readonly switchTab = (item: TabItem, index) => {
+         console.log("点击tabbar 跳转的事件", item.pagePath, index);
+        //  const _customTabBaar = Taro.getStorageSync("customTabBaar");
+        //  if (_customTabBaar === item.pagePath) return;
+        // redux.dispatch(redux.action.tabBarChange(index));
+        this.props.add(index);
          Taro.setStorageSync("customTabBaar", item.pagePath);
+         //  注意 '/' 不加会报错
          const url = "/" + item.pagePath;
          //  const { tabBarIndex } = this.props;
          //  tabBarIndex !== -1 && 
-        //  this.setState({
-        //     selected: _index,
-        //  })
          Taro.switchTab({url});
      };
  
-     public readonly getCurrentTab = () => {
-         const _customTabBaar = Taro.getStorageSync("customTabBaar");
-        //  console.log("获取当前的路径", _customTabBaar);
-         let _r = tabBarConfig.findIndex(_item => _item.pagePath === _customTabBaar);
-         _r = _r !== -1 ? _r : 0;
-         return _r;
-     }
+    //  public readonly getCurrentTab = () => {
+    //      const _customTabBaar = Taro.getStorageSync("customTabBaar");
+    //      console.log("获取当前的路径", _customTabBaar);
+    //      let _r = tabBarConfig.findIndex(_item => _item.pagePath === _customTabBaar);
+    //      _r = _r !== -1 ? _r : 0;
+    //      return _r;
+    //  }
  
      public render() {
-         const _isSelected = this.getCurrentTab();
-         console.log("_isSelected", _isSelected);
+         const { count } = this.props;
          return (
              <CoverView className='custom-tab-bar'>
                  {list.map((item, index) => {
-                     const isSelected = _isSelected === index;
+                     const isSelected = count === index;
                      return (
                          <CoverView className='tab-bar-item' onClick={() => this.switchTab(item, index)} data-path={item.pagePath} key={item.text} >
                              <CoverImage className='tab-bar-item-icon' src={isSelected ? item.selectedIconPath : item.iconPath} />
@@ -99,7 +94,7 @@ const list: TabItem[] = createTabBarConfig();
                                  color: isSelected ? "#3D3D47" : "#A9ADB6",
                              }}
                              >
-                                 {_isSelected}{item.text}{this.state.selected}
+                                 {item.text}{count}
                              </CoverView>
                          </CoverView>
                      );
@@ -108,5 +103,10 @@ const list: TabItem[] = createTabBarConfig();
          );
      }
 }
-export default _CustomTabBar;
+const mapTabBarState = (_state) => ({
+    count: _state.counter.num,
+});
+const CustomTabBar = connect(mapTabBarState,actions)(_CustomTabBar);
+
+export default CustomTabBar;
  
