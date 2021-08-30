@@ -1,7 +1,9 @@
+
+import Taro from '@tarojs/taro';
 import { Component } from 'react'
 import { View } from '@tarojs/components'
 import { NavigationBar } from '@/components/NavigationBar'
-
+import { _ChunkRoutes } from '../../configs/routesConfig';
 import './index.scss'
 
 export default class Index extends Component {
@@ -27,6 +29,13 @@ export default class Index extends Component {
         <View>
           123
         </View>
+        ---- 跳转 chunks goods -----
+        <View onClick={()=>{
+          Taro.navigateTo({
+            url: _ChunkRoutes.homePage1
+          })
+        }}
+        >goods</View>
       </View>
     )
   }

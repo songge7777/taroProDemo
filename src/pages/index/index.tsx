@@ -1,6 +1,7 @@
 import { Component } from 'react'
 import Taro from '@tarojs/taro';
 import { Canvas, View, Text } from '@tarojs/components'
+import {CanvasShareCommon} from '../../utils';
 import Tabs from '../components/tabs';
 import './index.scss'
 
@@ -18,7 +19,6 @@ export default class Index extends Component <Props, State> {
   }
     componentWillMount () { 
     }
-
   componentDidMount () {
     this.shareFn();
   }
@@ -29,23 +29,7 @@ export default class Index extends Component <Props, State> {
 
   componentDidHide () { }
   
-  public downlodaImage = (url: string): Promise<{statusCode: number, tempFilePath: string}> =>
-        new Promise((resolve, reject) => {
-            Taro.downloadFile({
-                url,
-                success(res: {
-                    statusCode: number,
-                    tempFilePath: string,
-                }) {
-                    if (res.statusCode === 200) {
-                        resolve(res);
-                    }
-                },
-                fail() {
-                    reject();
-                },
-            });
-        });
+ 
 
   public getImageInfo = (src: string): Promise<{ path: string }> => new Promise(resolve => {
       Taro.getImageInfo({
@@ -57,50 +41,38 @@ export default class Index extends Component <Props, State> {
   });
 
   public shareFn = async () => {
-    const ctx = Taro.createCanvasContext('postCanvas', this);
-    ctx.beginPath();
-    ctx.beginPath();
-    const x = 50;
-    const y = 50;
-    const r = 50;
-    const h = 50;
-    const w = 150;
-    ctx.fillRect(0, 0, 597, 969 );
-    ctx.rect(10, 10, 150, 75)
-    // ctx.setFillStyle('#fff')
-    // ctx.moveTo(10, 10)
-    // ctx.rect(10, 10, 100, 50)
-    // ctx.lineTo(110, 60)
-    // ctx.stroke()
-    // ctx.fill()
-    // // ctx.arc(x + r, y + r, r, Math.PI, Math.PI * 1.5);
-    // // ctx.arc(x + w - r, y + r, r, Math.PI * 1.5, Math.PI * 2);
-    // // ctx.arc(x + w - r, y + h - r, r, 0, Math.PI * 0.5);
-    // // ctx.arc(x + r, y + h - r, r, Math.PI * 0.5, Math.PI);
-    // ctx.clip();
-    ctx.save()
-    ctx.beginPath()
-    ctx.arc(50, 50, 25, 0, 2*Math.PI)
-    ctx.clip()
-    const _img = await this.downlodaImage('https://www.baidu.com/img/PC22_559a0d863ae10df92ee187e6a796f72b.gif');
-    console.log(_img);
-    ctx.drawImage(_img.tempFilePath, x, y, w, h);
-    ctx.restore();
-
-    ctx.draw(true, () => {
-      console.log('ok')
-    })
+    type R = CanvasShareCommon & Taro.CanvasContext;
+    const _ctx = Taro.createCanvasContext('postCanvas', this);
+    const ctx = new CanvasShareCommon({ctx:_ctx}) as R;
+    const _img = await ctx.cDownlodaImage('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fgss0.baidu.com%2F-Po3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F4034970a304e251fae75ad03a786c9177e3e534e.jpg&refer=http%3A%2F%2Fgss0.baidu.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1632048749&t=8bf6bad79a999e513291295ec8179d7c');
+    // ctx.drawImage(_img.tempFilePath, 0, 0, 421 / ratio, 338 / ratio);
+    // 绘制普通图片
+    ctx.cDrawImage(_img.tempFilePath, 0, 0, 300, 300);
+    // 绘制圆形图片
+    ctx.cCircleImg(_img.tempFilePath, 330, 0, 100);
+    // 带有圆角的矩形
+    // ctx.cRoundRect(_img.tempFilePath, 330, 0, 100);
+    const ___r = await ctx.cRoundRect(1,2,3,4,5)
+    console.log('------<>1', ___r);
+    // canvas 生成的图片和canvas 宽高对应
+    const _canvasImg = await ctx.cStartDraw('postCanvas', 300, 300, 300 * 2, 300 * 2);
+    console.log(`canvas 生成图片`, _canvasImg);
   }
   handleClick = (value:number) => {
     this.setState({
       current: value
     })
   }
+  // 微信自带分享&&button type='分享' 会走这个逻辑
+  public onShareAppMessage = async () => {
+    
+  }
+
   render () {
-    const tabList = [{ title: '标签页1' }, { title: '标签页2' }, { title: '标签页3' }]
+    const tabList = [{ title: '标签页1' }, { title: '标签页2' }, { title: '标签页3' }, { title: '标签页4' }, { title: '标签页5' }, { title: '标签页6' }, { title: '标签页7' }]
     const tabItem = [
       {
-        context:'11111'
+        context:'1111-'
       },
       {
         context:'2222'
@@ -108,17 +80,30 @@ export default class Index extends Component <Props, State> {
       {
         context:'33333'
       },
+      {
+        context:'44444'
+      },
+      {
+        context:'55555'
+      },
+      {
+        context:'66666'
+      },
+      {
+        context:'77777'
+      },
     ]
     return (
-      <View className='index'>
+      <View className='index' style={{marginBottom:'100px'}}>
         <Tabs
           current={this.state.current}
           PropsHandleClick={this.handleClick}
+          scroll
           tabList={tabList}
           tabItem={tabItem}
         />
         <Text>Hello world!</Text>
-        <Canvas id='postCanvasId' canvasId='postCanvas' disableScroll />
+        <Canvas id='postCanvasId' canvasId='postCanvas' disableScroll  style={{width:'400px',height:'500px', border: '1px solid red'}} />
         <View onClick={this.shareFn}>分享</View>
       </View>
     )

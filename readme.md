@@ -77,3 +77,23 @@ ctx.setFillStyle('red')
 ctx.fill()
 ctx.draw()
 ```
+
+## 分包
+- 在 pages页面的 同级下 配置一个subpackages即可,
+- 注意点,tabar 首次渲染不能 有分包的组件
+```js
+subpackages: [
+    {
+        root: 'chunks/goods',
+        pages: [
+            'addGoods/index',
+        ],
+    },
+    {
+        root: 'chunks/user',
+        pages: [
+            'login/index',
+        ],
+    },
+],
+```

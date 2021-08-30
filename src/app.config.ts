@@ -3,7 +3,24 @@ export default {
     pages: [
         "pages/index/index",
         "pages/homePage/index",
+        "pages/homePage/components/homepage1/index",
+        "pages/homePage/components/homepage2/index",
+        "pages/homePage/components/homepage3/index",
         "pages/twoPage/index",
+    ],
+    subpackages: [
+        {
+            root: 'chunks/goods',
+            pages: [
+                'addGoods/index',
+            ],
+        },
+        {
+            root: 'chunks/user',
+            pages: [
+                'login/index',
+            ],
+        },
     ],
     tabBar:{
         custom: true,
