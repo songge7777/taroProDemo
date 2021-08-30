@@ -29,7 +29,7 @@ export default class Index extends Component {
         <View>
           123
         </View>
-        ---- 跳转 chunks goods -----
+        ---- 跳转 chunks goods -----22
         <View onClick={()=>{
           Taro.navigateTo({
             url: _ChunkRoutes.homePage1
