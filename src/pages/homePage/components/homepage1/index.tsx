@@ -15,11 +15,18 @@ export default class Index extends Component {
     console.log('homepage1_componentDidMount',Taro.getCurrentPages())
   }
 
-  componentWillUnmount () { }
 
   componentDidShow () { }
 
   componentDidHide () { }
+
+  componentWillUnmount(){
+    // 此处 处理路由的back键
+    Taro.navigateTo({
+      url: _ChunkRoutes.homePage3
+    })
+    // console.log('onUnloadonUnloadonUnload')
+  }
 
   render () {
     return (
@@ -37,7 +44,7 @@ export default class Index extends Component {
           }
         }
         >
-          page1
+          page11
         </View>
         <View onClick={()=>
           {
@@ -48,7 +55,7 @@ export default class Index extends Component {
           }
         }
         >
-          page1
+          page11
         </View>
       </View>
     )

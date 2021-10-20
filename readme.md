@@ -1,3 +1,4 @@
+# taro 工作使用的总结
 ## 自定义tabbar
 - 1、custom 为true
 - 2、添加配置文件
